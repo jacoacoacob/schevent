@@ -1,26 +1,35 @@
+import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
+import { CalendarEvent } from './schemas/calendar-event.schema';
 
 @Injectable()
 export class EventsService {
-  create(createEventDto: CreateEventDto) {
-    return 'This action adds a new event';
+  constructor(
+    @InjectModel(CalendarEvent.name)
+    private calendarEventModel: Model<CalendarEvent>,
+  ) {}
+
+  async create(createEventDto: CreateEventDto) {
+    const createdEvent = new this.calendarEventModel(createEventDto);
+    return await createdEvent.save();
   }
 
-  findAll() {
-    return `This action returns all events`;
+  async findAll() {
+    return await this.calendarEventModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} event`;
+  async findOne(id: number) {
+    return await this.calendarEventModel.findById(id);
   }
 
-  update(id: number, updateEventDto: UpdateEventDto) {
-    return `This action updates a #${id} event`;
+  async update(id: number, updateEventDto: UpdateEventDto) {
+    return await this.calendarEventModel.findByIdAndUpdate(id, updateEventDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} event`;
+    return this.calendarEventModel.findByIdAndDelete(id);
   }
 }
