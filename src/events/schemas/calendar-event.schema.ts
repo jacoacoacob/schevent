@@ -5,7 +5,7 @@ type CalendarEventDocument = HydratedDocument<CalendarEvent>;
 
 @Schema()
 class CalendarEvent {
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   name: string;
 
   @Prop({ required: true })

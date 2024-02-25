@@ -6,12 +6,15 @@ import {
   Patch,
   Param,
   Delete,
+  UseFilters,
 } from '@nestjs/common';
+import { MongooseExceptionFilter } from '../mongoose-exception.filter';
 import { EventsService } from './events.service';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 
 @Controller('events')
+@UseFilters(MongooseExceptionFilter)
 export class EventsController {
   constructor(private readonly eventsService: EventsService) {}
 
