@@ -21,15 +21,15 @@ export class EventsService {
     return await this.calendarEventModel.find().exec();
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     return await this.calendarEventModel.findById(id);
   }
 
-  async update(id: number, updateEventDto: UpdateEventDto) {
+  async update(id: string, updateEventDto: UpdateEventDto) {
     return await this.calendarEventModel.findByIdAndUpdate(id, updateEventDto);
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.calendarEventModel.findByIdAndDelete(id);
   }
 }
