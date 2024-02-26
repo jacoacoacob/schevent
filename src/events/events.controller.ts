@@ -14,6 +14,8 @@ import { MongooseExceptionFilter } from '../mongoose-exception.filter';
 import { EventsService } from './events.service';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
+import { ApiResponse } from '@nestjs/swagger';
+import { EventResponseDto } from './dto/response-event.dto';
 
 @Controller('events')
 @UseFilters(MongooseExceptionFilter)
@@ -21,17 +23,27 @@ export class EventsController {
   constructor(private readonly eventsService: EventsService) {}
 
   @Post()
-  async create(@Body() createEventDto: CreateEventDto) {
+  @ApiResponse({ status: 201, type: EventResponseDto })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 500, description: 'Internal Server Error' })
+  async create(
+    @Body() createEventDto: CreateEventDto,
+  ): Promise<EventResponseDto> {
     return await this.eventsService.create(createEventDto);
   }
 
   @Get()
-  async findAll() {
+  @ApiResponse({ status: 200, type: EventResponseDto, isArray: true })
+  @ApiResponse({ status: 500, description: 'Internal Server Error' })
+  async findAll(): Promise<EventResponseDto[]> {
     return await this.eventsService.findAll();
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
+  @ApiResponse({ status: 200, type: EventResponseDto })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 404, description: 'Not Found' })
+  async findOne(@Param('id') id: string): Promise<EventResponseDto> {
     const event = await this.eventsService.findOne(id);
     if (!event) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
@@ -40,10 +52,13 @@ export class EventsController {
   }
 
   @Patch(':id')
+  @ApiResponse({ status: 200, type: EventResponseDto })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 404, description: 'Not Found' })
   async update(
     @Param('id') id: string,
     @Body() updateEventDto: UpdateEventDto,
-  ) {
+  ): Promise<EventResponseDto> {
     const updatedEvent = await this.eventsService.update(id, updateEventDto);
     if (!updatedEvent) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
@@ -52,7 +67,10 @@ export class EventsController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
+  @ApiResponse({ status: 200, type: EventResponseDto, description: 'Deleted' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 404, description: 'Not Found' })
+  async remove(@Param('id') id: string): Promise<EventResponseDto> {
     const deletedEvent = await this.eventsService.remove(id);
     if (!deletedEvent) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
