@@ -2,8 +2,8 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Types } from 'mongoose';
 
 export class EventResponseDto {
-  @ApiProperty()
-  _id: Types.ObjectId['_id'];
+  @ApiProperty({ type: String })
+  _id: Types.ObjectId;
 
   @ApiProperty()
   name: string;

@@ -28,4 +28,4 @@ npm start
 ## Design Choices and Areas for Improvement
 
 **Todo**:
-- Use GraphQL
+- Versioning
