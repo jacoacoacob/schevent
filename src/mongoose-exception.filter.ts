@@ -19,12 +19,14 @@ function handleMongooseError(error: mongoose.Error) {
   ) {
     return new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
   }
+  return error;
 }
 
 function handleMongoServerError(error: mongoose.mongo.MongoServerError) {
   if (error.code === MongoServerErrorCode.DuplicateKey) {
     return new HttpException(error.message, HttpStatus.BAD_REQUEST);
   }
+  return error;
 }
 
 @Catch(mongoose.mongo.MongoServerError, mongoose.Error)
