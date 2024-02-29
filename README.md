@@ -12,12 +12,13 @@ _Checkout the **Schevent** React / Next.js frontend [here](https://github.com/ja
 
 ## Design Choices
 
-I used `@nestjs/schedule` to create a cron-based notification system that queries the database for events whose start times are greater than or equal to now and less than or equal to half an hour from now. Since the frontend enforces that users may only create events with start times at 5 minute intervals on the hour, I created a cron job that queries the database at 5 minute intervals on the hour; sends notifications to invitees for each event; and marks notifications as having been sent for that event. 
+Since the backend and frontend share no code, I decided to maintain each project in its own repository. If there was code sharing happening, I would create a monorepo using [Turbo Repo](https://turbo.build/repo) or [Nx](https://nx.dev/) with `backend`, `frontend`, and `core` packages.
 
 I created a Swagger-enabled REST API for event CRUD operations so that I could use [openapi-typescript](https://openapi-ts.pages.dev/introduction) and [openapi-fetch](https://openapi-ts.pages.dev/openapi-fetch/) to generate typescript interfaces and create a fetch client with typed request / response values on the [frontend](https://github.com/jacoacoacob/schevent-frontend). GraphQL is definitely the other obvious choice for schema driven full stack development but I was more comfortable with Swagger and REST conventions and went with them for the sake of time.
 
- create a typed fetch client on the frontend 
+I used `@nestjs/schedule` to create a cron-based notification system that queries the database for events whose start times are greater than or equal to now and less than or equal to half an hour from now. Since the frontend enforces that users may only create events with start times at 5 minute intervals on the hour, I created a cron job that queries the database at 5 minute intervals on the hour; sends notifications to invitees for each event; and marks notifications as having been sent for that event so that invitees will not be notified again.
 
+I thought about creating / managing [dynamic timeouts](https://docs.nestjs.com/techniques/task-scheduling#dynamic-timeouts) each time an event was created (or its time was updated) but I didn't want to wrestle with how to make this approach resilient to server shutdowns / restarts.
 
 ## Running Locally
 
