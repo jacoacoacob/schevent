@@ -50,9 +50,10 @@ export class NotificationsService {
     // ...elsewhere, in a queue consumer
     invitees.forEach((invitee) => {
       // imagine this is sending a push notification or email or something...
-      this.logger.log(
-        `SENT NOTIFICATION: "Hey ${invitee}. Your event "${eventName}" is starting soon at ${startsAt}"`,
-      );
+      this.logger.log({
+        type: 'NOTIFY_STARTING_SOON',
+        payload: `"Hey ${invitee}. Your event "${eventName}" is starting soon at ${startsAt}"`,
+      });
     });
   }
 }
