@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { Date, HydratedDocument } from 'mongoose';
 
 type CalendarEventDocument = HydratedDocument<CalendarEvent>;
 
@@ -11,11 +11,17 @@ class CalendarEvent {
   @Prop({ required: true })
   description: string;
 
-  @Prop({ required: true })
-  timestamp: string;
+  @Prop({ required: true, type: Date })
+  startsAt: Date;
 
   @Prop({ type: [String], required: true })
   invitees: string[];
+
+  /**
+   * Indicates whether or not a notification has been sent for this event
+   */
+  @Prop({ required: false, default: false })
+  _isNotificationSent: boolean;
 }
 
 const CalendarEventSchema = SchemaFactory.createForClass(CalendarEvent);

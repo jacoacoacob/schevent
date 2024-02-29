@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Types } from 'mongoose';
+import { Types, Date } from 'mongoose';
 
 export class EventResponseDto {
   @ApiProperty({ type: String })
@@ -12,7 +12,7 @@ export class EventResponseDto {
   description: string;
 
   @ApiProperty()
-  timestamp: string;
+  startsAt: Date;
 
   @ApiProperty()
   invitees: string[];

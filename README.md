@@ -29,5 +29,6 @@ npm start
 
 **Todo**:
 - Versioning
-- Timezone handling
-- Native database timestamp queries (not loading everything into memory on server...)
+- Use task queue for notifications https://docs.nestjs.com/techniques/queues
+- Unit tests
+- Allow notifications to be sent more than once if a given `CalendarEvent`'s `startsAt` value is changed (there are at least a few ways to handle this...)

@@ -8,7 +8,7 @@ export class CreateEventDto {
   description: string;
 
   @ApiProperty()
-  timestamp: string;
+  startsAt: string;
 
   @ApiProperty()
   invitees: string[];
