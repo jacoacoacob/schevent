@@ -15,5 +15,10 @@ import {
   ],
   controllers: [EventsController],
   providers: [EventsService],
+  exports: [
+    MongooseModule.forFeature([
+      { name: CalendarEvent.name, schema: CalendarEventSchema },
+    ]),
+  ],
 })
 export class EventsModule {}

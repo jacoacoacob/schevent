@@ -13,10 +13,10 @@ enum MongoServerErrorCode {
 }
 
 function handleMongooseError(error: mongoose.Error) {
-  if (
-    error instanceof mongoose.Error.ValidationError ||
-    error instanceof mongoose.Error.CastError
-  ) {
+  if (error instanceof mongoose.Error.ValidationError) {
+    return new HttpException(error.message, HttpStatus.BAD_REQUEST);
+  }
+  if (error instanceof mongoose.Error.CastError) {
     return new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
   }
   return error;

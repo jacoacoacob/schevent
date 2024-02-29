@@ -29,3 +29,5 @@ npm start
 
 **Todo**:
 - Versioning
+- Timezone handling
+- Native database timestamp queries (not loading everything into memory on server...)
